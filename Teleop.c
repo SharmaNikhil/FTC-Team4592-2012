@@ -26,7 +26,6 @@ const int clawStorePosition    = 80;
 const int clawPushPosition     = 170;
 const int clawGrabPosition     = 220;
 const int clawToggleBtn        = 2; //Gunner Controller
-const int clawTurnRate         = 1;
 
 task main()
 {
@@ -43,7 +42,6 @@ task main()
 }
 void initializeRobot()
 {
-	servoChangeRate[claw] = clawTurnRate;
 	ClearTimer(T1);
 	ClearTimer(T2);
 	ClearTimer(T3);
