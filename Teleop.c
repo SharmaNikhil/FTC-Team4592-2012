@@ -25,10 +25,10 @@ const int liftDownPower            = 60;
 const int highestDrivePower        = 100;
 const int lowDrivePower            = 25;
 const int toggleZeroTolerance      = 10;
-const int clawPushPosition         = 170;
-const int clawGrabPosition         = 220;
+const int clawPushPosition         = 190;
+const int clawGrabPosition         = 225;
 const int clawToggleBtn            = 2; //Gunner Controller
-const int clawSlideReleasePosition = 180; //unknown yet
+const int clawSlideReleasePosition = 180;
 
 task main()
 {
