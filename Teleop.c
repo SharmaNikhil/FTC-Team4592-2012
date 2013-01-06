@@ -1,15 +1,17 @@
-#pragma config(Hubs,  S1, HTMotor,  HTMotor,  HTServo,  none)
+#pragma config(Sensor, S1,     irSeek,         sensorHiTechnicIRSeeker1200)
 #pragma config(Sensor, S2,     light,          sensorLightActive)
-#pragma config(Sensor, S3,     irSeek,         sensorHiTechnicIRSeeker1200)
-#pragma config(Motor,  mtr_S1_C1_1,     leftDrive,     tmotorTetrix, openLoop, reversed, encoder)
-#pragma config(Motor,  mtr_S1_C1_2,     rightDrive,    tmotorTetrix, openLoop, encoder)
-#pragma config(Motor,  mtr_S1_C2_1,     slide,         tmotorTetrix, openLoop, encoder)
-#pragma config(Motor,  mtr_S1_C2_2,     lift,          tmotorTetrix, openLoop, reversed, encoder)
-#pragma config(Servo,  srvo_S1_C3_1,    claw,                 tServoStandard)
-#pragma config(Servo,  srvo_S1_C3_2,    clawRelease,          tServoStandard)
+#pragma config(Hubs,   S3, HTMotor,  HTMotor,  HTServo,  none)
+#pragma config(Sensor, S4,     liftSafetyTouch, sensorTouch)
+#pragma config(Motor,  mtr_S3_C1_1,     leftDrive,     tmotorTetrix, openLoop, reversed, encoder)
+#pragma config(Motor,  mtr_S3_C1_2,     rightDrive,    tmotorTetrix, openLoop, encoder)
+#pragma config(Motor,  mtr_S3_C2_1,     slide,         tmotorTetrix, openLoop, encoder)
+#pragma config(Motor,  mtr_S3_C2_2,     lift,          tmotorTetrix, openLoop, reversed, encoder)
+#pragma config(Servo,  srvo_S3_C3_1,    claw,                 tServoStandard)
+#pragma config(Servo,  srvo_S3_C3_2,    clawRelease,          tServoStandard)
 
 #include "JoystickDriver.c"  //Include file to "handle" the Bluetooth messages.
 #include "globalVariables.h"
+#include "globalFunctions.c"
 
 void initializeRobot();
 void doDriving();
@@ -20,7 +22,7 @@ const int timerDelayForToggles     = 750;
 const int driveSpeedToggleBtn      = 2; //Drive Controller
 const int slideReverseBtn          = 5;
 const int slidePower               = 20;
-const int liftUpPower              = 40;
+const int liftUpPower              = 70;
 const int liftDownPower            = 60;
 const int highestDrivePower        = 100;
 const int lowDrivePower            = 25;
@@ -35,7 +37,7 @@ task main()
   initializeRobot();
 
   waitForStart();   // wait for start of tele-op phase
-	motor[lift] = liftUpPower;
+	liftAssignSafety(liftUpPower);
 	wait1Msec(1000);
 	releaseClaw();
   while (true)
@@ -51,20 +53,12 @@ void initializeRobot()
 	ClearTimer(T2);
 	ClearTimer(T3);
 	ClearTimer(T4);
-	if(nAvgBatteryLevel < 9000) // NXT Batter should be at 9.0 volts when fully charged
-  {
-  	PlayTone(100,1000);
-  }
-  wait1Msec(3000);
-  if(externalBatteryAvg < 12000) // External Battery Should be at least at 12.0 volts
-  {
-  	PlayTone(400,1000);
-  }
+	batteryTest();
   servo[claw]        = clawStorePosition;
   servo[clawRelease] = clawSlideHoldPosition;
   return;
 }
-void doDriving() // Status: done but untested
+void doDriving()
 {
 	static int drivePower = highestDrivePower;
 	if(joy1Btn(driveSpeedToggleBtn) && (time1[T1] > timerDelayForToggles))
@@ -97,7 +91,7 @@ void doGunning()
 	static int slideDirection = 1;
 	if(joy2Btn(slideReverseBtn) && (time1[T2] > timerDelayForToggles))
 	{
-		slideDirection *= -1; // reverse direction
+		slideDirection *= -1;
 	}
 	if( abs(joystick.joy2_x2) > toggleZeroTolerance)
 	{
@@ -111,16 +105,16 @@ void doGunning()
 	{
 		if(joystick.joy2_y1 > 0)
 		{
-			motor[lift] = (joystick.joy2_y1/128.0) * liftUpPower;
+			liftAssignSafety((joystick.joy2_y1/128.0) * liftUpPower);
 		}
 		else
 		{
-			motor[lift] = (joystick.joy2_y1/128.0) * liftDownPower;
+			liftAssignSafety((joystick.joy2_y1/128.0) * liftDownPower);
 		}
 	}
 	else
 	{
-		motor[lift] = 0;
+		liftAssignSafety(0);
 	}
 	if(joy2Btn(clawToggleBtn) && (time1[T3] > timerDelayForToggles))
 	{
@@ -137,7 +131,7 @@ void doGunning()
 void releaseClaw()
 {
 	servo[clawRelease] = clawSlideReleasePosition;
-	wait1Msec(100);
+	wait1Msec(750);
 	servo[claw] = clawPushPosition;
 }
 /*    Drive buttons
