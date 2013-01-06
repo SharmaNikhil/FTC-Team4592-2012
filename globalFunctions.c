@@ -3,7 +3,7 @@
 #include "globalVariables.h"
 
 void batteryTest() {
-	if(nAvgBatteryLevel < 9000) // NXT Batter should be at 9.0 volts when fully charged
+	if(nAvgBatteryLevel < 9000) // NXT Battery should be at 9.0 volts when fully charged
   {
   	PlayTone(100,100);
   }
@@ -15,8 +15,8 @@ void batteryTest() {
 }
 
 void liftAssignSafety(float power) {
-	const int liftMiddleEncoderValue = 5000; //Unknown yet
 	#ifdef useSafety
+		const int liftMiddleEncoderValue = 5000; //Unknown yet
 		if(SensorValue[liftSafetyTouch] == true)
 		{
 			if(power > 0) // user wants to raise lift
