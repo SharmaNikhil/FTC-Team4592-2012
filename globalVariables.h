@@ -1,7 +1,9 @@
 #ifndef globalVariables
 #define globalVariables
 
-const int clawStorePosition      = 80;
-const int clawSlideHoldPosition  = 100; //unknown yet
+//#define useSafety
+
+const int clawStorePosition      = 20;
+const int clawSlideHoldPosition  = 100;
 
 #endif
