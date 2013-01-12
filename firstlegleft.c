@@ -31,7 +31,7 @@ const int hookDownPosition    = 0;
 task main()
 {
   initializeRobot();
-	int countline = 0;
+
   //waitForStart(); // Wait for the beginning of autonomous phase.
   motor[slide] = 20;
 	wait1Msec(750);
@@ -44,28 +44,22 @@ task main()
 	{
 		if(atLine())
 		{
-			countline++;
 			//stopDrive();
-			if(SensorValue[irSeek] >= 5 && SensorValue[irSeek] <= 6)
+			if(SensorValue[irSeek] >= 4 && SensorValue[irSeek] <= 6)
 			{
 				// at Correct Line
 				break;
 			}
-			else if(countline==1)
+			else
 			{
-				motor[rightDrive]= 13;
+				motor[rightDrive]= 10;
 				motor[leftDrive] = 0;
-				wait1Msec(500);
-			}
-			else if(countline == 2){
-				motor[rightDrive] = 9;
-				motor[leftDrive] = 0;
-				wait1Msec(500);
+				wait1Msec(750);
 			}
 			motor[leftDrive]  = 70;
 			motor[rightDrive] = 70;
 
-			wait1Msec(500);
+			wait1Msec(750);
 
 		}
 	}
