@@ -3,7 +3,7 @@
 
 //#define useSafety
 
-const int clawStorePosition      = 20;
+const int clawStorePosition      = 0;
 const int clawSlideHoldPosition  = 100;
 
 #endif
