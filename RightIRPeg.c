@@ -34,105 +34,105 @@ task main()
 {
   initializeRobot();
 	int countline = 0;
-  //waitForStart(); // Wait for the beginning of autonomous phase.
-  motor[slide] = -20;
+  waitForStart(); // Wait for the beginning of autonomous phase.
+  motor[slide] = -20;//slide over
 	wait1Msec(750);
 	motor[slide] = 0;
 	ClearTimer(T1);
 	SensorValue[irSeek] = 0;
 	motor[leftDrive]  = 70;
 	motor[rightDrive] = 70;
-	servo[rightgrab] = grabDownPosition;
-  while(time1[T1] < 10000)
+	servo[rightgrab] = grabDownPosition;//set to start position
+  while(time1[T1] < 9000)
 	{
 		if(atLine())
 		{
 			countline++;
-			//stopDrive();
-			if(SensorValue[irSeek] >= 5 && SensorValue[irSeek] <= 6)
+
+			if(SensorValue[irSeek] >= 5 && SensorValue[irSeek] <= 6)//checks if at the ir beacon
 			{
 				// at Correct Line
 				break;
 			}
-			else if(countline==1)
+			else if(countline==1)// if hit the 1st line turn slightly
 			{
 				motor[rightDrive]= 0;
-				motor[leftDrive] = 13;
+				motor[leftDrive] = 9;
 				wait1Msec(500);
 			}
-			else if(countline == 2){
+			else if(countline == 2){//if hit the 2nd line turn slightly
 				motor[rightDrive] = 0;
 				motor[leftDrive] = 1;
 				wait1Msec(500);
 			}
-			motor[leftDrive]  = 75;
+			motor[leftDrive]  = 75;//drive
 			motor[rightDrive] = 75;
 
 			wait1Msec(500);
 
 		}
 	}
-	if(time1[T1] < 10000)
+	if(time1[T1] < 9000)//while less thatn 9 seconds
 	{
 		nMotorEncoder[leftDrive]  = 0;
 		nMotorEncoder[rightDrive] = 0;
-		if(countline ==1){
+		if(countline == 1){
 
 			forward(8.9); //Distance after line till stop
 			stopDrive();
 			wait1Msec(500);
 
-			servo[rightgrab] = grabReleasePositionpeg1;
+			servo[rightgrab] = grabReleasePositionpeg1;//put grabber in position to place ring
 			wait1Msec(500);
-			motor[slide] = 40;
+			motor[slide] = 40;//move slide over
 			wait1Msec(750);
 			motor[slide] = 0;
 			wait1Msec(1000);
-	    servo[rightgrab] = grabReleasePositionpeg1 + 10;
+	    servo[rightgrab] = grabReleasePositionpeg1 + 10;//move slightly to help put ring on
 	    wait1Msec(1000);
-			forward(7);
+			forward(7);//go forward to pull ring off
 		}
 		else if(countline == 2)
 		{
-			forward(9.25);
+			forward(9.1);//Distance after line till stop
 			stopDrive();
 			wait1Msec(500);
 
-			servo[rightgrab] = grabReleasePositionpeg2;
+			servo[rightgrab] = grabReleasePositionpeg2;//put grabber in position to place ring
 			wait1Msec(500);
-			motor[slide] = 40;
+			motor[slide] = 40;//move over to put ring on
 			wait1Msec(750);
 			motor[slide] = 0;
 			wait1Msec(1000);
-	    servo[rightgrab] = grabReleasePositionpeg2 +5;
+	    servo[rightgrab] = grabReleasePositionpeg2 -8;//move slightly to put ring on
 	    wait1Msec(1000);
-			forward(7);
+			forward(7);//go forward to pull ring off
 		}
-		else if(countline ==3){
-			forward(9.1);
+		else if(countline == 3){
+			forward(9.1);//Distance after line till stop
 			stopDrive();
 			wait1Msec(500);
 
-			servo[rightgrab] = grabReleasePositionpeg3;
+			servo[rightgrab] = grabReleasePositionpeg3;//move grabber to position to place ring on 3 peg
 			wait1Msec(500);
-			motor[slide] = 40;
+			motor[slide] = 40;//move over to place ring on
 			wait1Msec(750);
 			motor[slide] = 0;
 			wait1Msec(1000);
-	    servo[rightgrab] = grabReleasePositionpeg3 +5;
+	    servo[rightgrab] = grabReleasePositionpeg3 +5;//move slightly to help put ring on
 	    wait1Msec(1000);
-			forward(7);
+			forward(7);//go forward to pull ring off
 		}
 
 
 
-		//servo[leftgrab] = grabReleasePosition;
 
-		forward(7);
+
+
 	}
 	else
-		stopDrive();
-	nMotorEncoder[leftDrive]  = 0;
+		stopDrive();//if not less than 9 seconds stop
+	nMotorEncoder[leftDrive]  = 0;//clea encoders
 	nMotorEncoder[rightDrive] = 0;
   while (true) {}
 }
@@ -143,12 +143,12 @@ void initializeRobot()
 	ClearTimer(T2);
 	ClearTimer(T3);
 	ClearTimer(T4);
-	servo[leftgrab] 			 = grabDownPosition;
-  while(ServoValue(leftgrab) != grabDownPosition) {}
+	servo[rightgrab] 			 = grabDownPosition;//put to starting position
+  while(ServoValue(rightgrab) != grabDownPosition) {}
 	batteryTest();
-  servo[leftgrab]        = clawStorePosition;
-  servo[clawRelease] = clawSlideHoldPosition;
-  servoChangeRate[leftgrab] = 2;
+
+
+
   return;
 }
 
@@ -168,10 +168,10 @@ void stopDrive()
 	motor[rightDrive] = 0;
 }
 
-void forward(float distance) {
+void forward(float distance) {//forward function to pass in a length in inches and then it goes that for
 const float CHANGE = 2;
 float totalTraveled = 0;
-float encoderTarget = (169.92*distance) - 55.875; //- 111.75;
+float encoderTarget = (169.92*distance) - 55.875; //calculate the encoder target
 nMotorEncoder[rightDrive] = 0;
 nMotorEncoder[leftDrive]  = 0;
 float leftEncoder;
@@ -182,12 +182,12 @@ while(abs(totalTraveled) < abs(encoderTarget))
 {
 	leftEncoder  = nMotorEncoder[leftDrive];
 	rightEncoder = nMotorEncoder[rightDrive];
-	if(leftEncoder > rightEncoder)
+	if(leftEncoder > rightEncoder)//changes based on which one has traveled farther
 	{
 		leftPower  -= CHANGE;
 		rightPower += CHANGE;
 	}
-	else if(leftEncoder < rightEncoder)
+	else if(leftEncoder < rightEncoder)//same thing
 	{
 		leftPower  += CHANGE;
 		rightPower -= CHANGE;
@@ -201,10 +201,10 @@ while(abs(totalTraveled) < abs(encoderTarget))
 	while(time1[T1] < 200) {
 		leftEncoder  = nMotorEncoder[leftDrive];
 		rightEncoder = nMotorEncoder[rightDrive];
-		if(!((abs(totalTraveled + (leftEncoder + rightEncoder)/ 2.0)) < abs(encoderTarget)))
-		{
-			totalTraveled += (nMotorEncoder[leftDrive] + nMotorEncoder[rightDrive])/ 2.0;
-			break;
+		if(!((abs(totalTraveled + (leftEncoder + rightEncoder)/ 2.0)/* average*/)/*adds the distance traveled*/ < abs(encoderTarget)))
+		{//while all that is not less than the encoder target
+			totalTraveled += (nMotorEncoder[leftDrive] + nMotorEncoder[rightDrive])/ 2.0;// add the aveage of the encoders
+			break;//exit
 		}
 	}
 }
