@@ -26,7 +26,7 @@ void stopDrive();
 void forward(float distance);
 
 const int grabReleasePositionpeg1 = 195;//241 is highest nm
-const int grabReleasePositionpeg2 = 189;
+const int grabReleasePositionpeg2 = 190;
 const int grabReleasePositionpeg3 = 200;
 const int grabDownPosition= 165;
 
@@ -34,7 +34,7 @@ task main()
 {
   initializeRobot();
 	int countline = 0;
-  waitForStart(); // Wait for the beginning of autonomous phase.
+  //waitForStart(); // Wait for the beginning of autonomous phase.
   motor[slide] = -20;//slide over
 	wait1Msec(750);
 	motor[slide] = 0;
@@ -94,7 +94,7 @@ task main()
 		}
 		else if(countline == 2)
 		{
-			forward(9.1);//Distance after line till stop
+			forward(9);//Distance after line till stop
 			stopDrive();
 			wait1Msec(500);
 
