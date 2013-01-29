@@ -1,7 +1,7 @@
 #ifndef globalFunction
 #define globalFunction
 #include "globalVariables.h"
-
+#include "JoystickDriver.c"
 void batteryTest() {
 	if(nAvgBatteryLevel < 9000) // NXT Battery should be at 9.0 volts when fully charged
   {
@@ -16,25 +16,20 @@ void batteryTest() {
 
 void liftAssignSafety(float power) {
 	#ifdef useSafety
-		const int liftMiddleEncoderValue = 5000; //Unknown yet
-		if(SensorValue[liftSafetyTouch] == true)
+		const int lowestEncoderValue = 0;//7400; //Unknown yet
+		if(power < 0) //Trying to go down
 		{
-			if(power > 0) // user wants to raise lift
+			if(!joy2Btn(6)) //Not Overiding
 			{
-				if(nMotorEncoder[lift] > liftMiddleEncoderValue)
-				{
-					power = 0;
-				}
-			}
-			else if(power < 0) // user wants to lower lift
-			{
-				if(nMotorEncoder[lift] < liftMiddleEncoderValue)
+				if(nMotorEncoder[lift] <= lowestEncoderValue)
 				{
 					power = 0;
 				}
 			}
 		}
 	#endif
+	//eraseDisplay();
+	//nxtDisplayTextLine(4,"Enc Val: %f",nMotorEncoder[lift]);
 	motor[lift] = power;
 }
 
