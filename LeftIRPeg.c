@@ -37,7 +37,7 @@ task main()
 
 
 	int countline = 0;
-  //waitForStart(); // Wait for the beginning of autonomous phase.
+  waitForStart(); // Wait for the beginning of autonomous phase.
   motor[slide] = 20;
 	wait1Msec(750);
 	motor[slide] = 0;
@@ -149,8 +149,8 @@ task main()
 	    wait1Msec(1000);
 	    motor[leftDrive] = -50;
 	    motor[rightDrive] = -50;
-	    wait1Msec(9000);
-			forward(7);//move forward to have the ring fall off
+	    wait1Msec(6400);
+			forward(7);
 		}
 	}
 	else
@@ -170,7 +170,7 @@ void initializeRobot()
   while(ServoValue(leftgrab) != grabDownPosition) {}
 	batteryTest();
 
-  servo[clawRelease] = clawSlideHoldPosition;// reLEASE SLIDE
+  servo[Claw] = 0;// reLEASE SLIDE
 
   return;
 }
