@@ -108,7 +108,7 @@ task main()
 			forward(7);//go forward to pull ring off
 		}
 		else if(countline == 3){
-			forward(9.2);//Distance after line till stop
+			forward(9);//Distance after line till stop
 			stopDrive();
 			wait1Msec(500);
 

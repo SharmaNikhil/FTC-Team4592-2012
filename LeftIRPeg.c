@@ -139,18 +139,18 @@ task main()
 			wait1Msec(750);
 			motor[slide] = 0;
 			wait1Msec(1000);
-	    servo[leftgrab] = grabReleasePositionpeg3 + 25;
+			servo[leftgrab] = grabReleasePositionpeg3 + 25;
 
 
 
 
 
-	    //move slightly to help put ring on
-	    wait1Msec(1000);
-	    motor[leftDrive] = -50;
-	    motor[rightDrive] = -50;
-	    wait1Msec(9000);
-			forward(7);//move forward to have the ring fall off
+			//move slightly to help put ring on
+			wait1Msec(1000);
+			motor[leftDrive] = -50;
+			motor[rightDrive] = -50;
+			wait1Msec(6400);
+			forward(7);
 		}
 	}
 	else
@@ -170,7 +170,7 @@ void initializeRobot()
   while(ServoValue(leftgrab) != grabDownPosition) {}
 	batteryTest();
 
-  servo[clawRelease] = clawSlideHoldPosition;// reLEASE SLIDE
+  servo[Claw] = 0;// reLEASE SLIDE
 
   return;
 }
