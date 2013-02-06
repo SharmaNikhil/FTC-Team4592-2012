@@ -34,6 +34,7 @@ task main()
   initializeRobot();
 	int countline = 0;
   waitForStart(); // Wait for the beginning of autonomous phase.
+  wait1Msec(10000);
   motor[slide] = -20;//slide over
 	wait1Msec(750);
 	motor[slide] = 0;

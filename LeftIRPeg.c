@@ -37,7 +37,7 @@ task main()
 
 
 	int countline = 0;
-  //waitForStart(); // Wait for the beginning of autonomous phase.
+  waitForStart(); // Wait for the beginning of autonomous phase.
   motor[slide] = 20;
 	wait1Msec(750);
 	motor[slide] = 0;
@@ -94,7 +94,7 @@ task main()
 			servo[leftgrab] = grabReleasePositionpeg1;//put grabber at position
 			wait1Msec(500);
 			motor[slide] = -50;
-			wait1Msec(900);
+			wait1Msec(1000);
 			motor[slide] = 0;
 			wait1Msec(1000);
 	    servo[leftgrab] = grabReleasePositionpeg1 - 15;// move slightly to possible help
@@ -114,7 +114,7 @@ task main()
 			servo[leftgrab] = grabReleasePositionpeg2;//move to position for the 2nd peg
 			wait1Msec(500);
 			motor[slide] = -50;//slide over to put the ring on
-			wait1Msec(750);
+			wait1Msec(1000);
 			motor[slide] = 0;
 			wait1Msec(1000);
 	    servo[leftgrab] = grabReleasePositionpeg2 + 10;//move slightly to help put the ring on
@@ -136,7 +136,7 @@ task main()
 			servo[leftgrab] = grabReleasePositionpeg3;//put grabber to position for 3rd peg
 			wait1Msec(500);
 			motor[slide] = -50;//move to slide the ring on
-			wait1Msec(750);
+			wait1Msec(1000);
 			motor[slide] = 0;
 			wait1Msec(1000);
 			servo[leftgrab] = grabReleasePositionpeg3 + 25;
@@ -170,7 +170,7 @@ void initializeRobot()
   while(ServoValue(leftgrab) != grabDownPosition) {}
 	batteryTest();
 
-  servo[Claw] = 0;// reLEASE SLIDE
+  servo[claw] = 39;
 
   return;
 }

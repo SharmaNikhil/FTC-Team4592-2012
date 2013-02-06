@@ -64,16 +64,16 @@ task btnLiftControl() {
 	switch (pos)
 	{
 		case 1:
-		targetPosition = 50;
+		targetPosition = 500;
 		break;
 		case 2:
-		targetPosition = 175;
+		targetPosition = 200;
 		break;
 		case 3:
 		targetPosition = 2200;
 		break;
 		case 4:
-		targetPosition = 7600;
+		targetPosition = 7900;
 		break;
 	}
 	while(abs(nMotorEncoder[lift] - targetPosition) > TOLERANCE)
