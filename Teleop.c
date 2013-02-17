@@ -37,18 +37,19 @@ const int liftDownPower            = 80;
 const int highestDrivePower        = 100;
 const int lowDrivePower            = 50;
 const int toggleZeroTolerance      = 10;
-const int clawPushPosition         = 160;
-const int clawGrabPosition         = 190;
-const int clawToggleBtn            = 2; //Gunner Controller
+const int clawPushPosition         = 200;
+const int clawGrabPosition         = 255;
+const int clawToggleBtn            = 8; //Gunner Controller
 const int clawSlideReleasePosition = 180;
 
+bool goingToTarget = false;
+int targetLiftPos = 0;
+task btnLiftControl();
 task main()
 {
   initializeRobot();
 
   waitForStart();   // wait for start of tele-op phase
-
-
 
   while (true)
   {
@@ -57,6 +58,35 @@ task main()
   	doGunning();
   }
 }
+task btnLiftControl() {
+	int pos = targetLiftPos;
+	const int TOLERANCE = 100;
+	goingToTarget = true;
+	int targetPosition;
+	switch (pos)
+	{
+		case 1:
+		targetPosition = 500;
+		break;
+		case 2:
+		targetPosition = 200;
+		break;
+		case 3:
+		targetPosition = 2200;
+		break;
+		case 4:
+		targetPosition = 7900;
+		break;
+	}
+	while(abs(nMotorEncoder[lift] - targetPosition) > TOLERANCE)
+	{
+		if(nMotorEncoder[lift] > targetPosition)
+			liftAssignSafety(-1*liftDownPower);
+		else
+			liftAssignSafety(liftUpPower);
+	}
+	goingToTarget = false;
+}
 void initializeRobot()
 {
 	ClearTimer(T1);
@@ -64,7 +94,7 @@ void initializeRobot()
 	ClearTimer(T3);
 	ClearTimer(T4);
 	batteryTest();
-
+	nMotorEncoder[lift] = 0;
   return;
 }
 void doDriving()
@@ -124,6 +154,11 @@ void doGunning()
 	}
 	if(abs(joystick.joy2_y1) > toggleZeroTolerance)//depending on the position on the y axis of the 1st joystick
 	{//it moves the slide up
+		if(goingToTarget)
+		{
+			StopTask(btnLiftControl);
+			goingToTarget = false;
+		}
 		if(joystick.joy2_y1 > 0)
 		{
 			liftAssignSafety((joystick.joy2_y1/128.0) * liftUpPower);//goes up
@@ -137,7 +172,7 @@ void doGunning()
 	}
 	else
 	{
-		liftAssignSafety(0);//if nothing do nothing
+		if(!goingToTarget) liftAssignSafety(0);//if nothing do nothing
 		motor[greenlight] = 0;
 		motor[redlight] = 0;
 	}
@@ -153,10 +188,26 @@ void doGunning()
 		}
 		ClearTimer(T3);
 	}
+	if(joy2Btn(1)){
+		StartTask(btnLiftControl);
+		targetLiftPos = 1;
+	}
+	if(joy2Btn(2)){
+		StartTask(btnLiftControl);
+		targetLiftPos = 2;
+	}
+	if(joy2Btn(3)){
+		StartTask(btnLiftControl);
+		targetLiftPos = 3;
+	}
+	if(joy2Btn(4)){
+		StartTask(btnLiftControl);
+		targetLiftPos = 4;
+	}
 }
 void releaseClaw()
 {
-	servo[clawRelease] = clawSlideReleasePosition;
+	servo[ClawRelease] = clawSlideReleasePosition;
 	wait1Msec(750);
 	servo[claw] = clawPushPosition;
 }

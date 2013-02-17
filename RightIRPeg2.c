@@ -34,6 +34,7 @@ task main()
   initializeRobot();
 	int countline = 0;
   waitForStart(); // Wait for the beginning of autonomous phase.
+  wait1Msec(10000);
   motor[slide] = -20;//slide over
 	wait1Msec(750);
 	motor[slide] = 0;
@@ -93,11 +94,7 @@ task main()
 		}
 		else if(countline == 2)
 		{
-<<<<<<< HEAD
-			forward(9);//Distance after line till stop
-=======
 			forward(8.1);//Distance after line till stop
->>>>>>> 7694e91e1b27e7c839e0c65aaa172770d473e9fc
 			stopDrive();
 			wait1Msec(500);
 
@@ -112,11 +109,7 @@ task main()
 			forward(7);//go forward to pull ring off
 		}
 		else if(countline == 3){
-<<<<<<< HEAD
-			forward(9);//Distance after line till stop
-=======
 			forward(8.97);//Distance after line till stop
->>>>>>> 7694e91e1b27e7c839e0c65aaa172770d473e9fc
 			stopDrive();
 			wait1Msec(500);
 

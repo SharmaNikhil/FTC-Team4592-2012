@@ -37,7 +37,7 @@ task main()
 
 
 	int countline = 0;
-  waitForStart(); // Wait for the beginning of autonomous phase.
+  //waitForStart(); // Wait for the beginning of autonomous phase.
   motor[slide] = 20;
 	wait1Msec(750);
 	motor[slide] = 0;
@@ -67,7 +67,7 @@ task main()
 				motor[leftDrive] = 0;
 				wait1Msec(500);
 			}
-			else if(countline == 2){
+			else if(countline == 2)/*may need to change*/{
 				motor[rightDrive] = 4;//if it isn't at the beacon and is at line 2
 				motor[leftDrive] = 0;
 				wait1Msec(500);
@@ -94,7 +94,7 @@ task main()
 			servo[leftgrab] = grabReleasePositionpeg1;//put grabber at position
 			wait1Msec(500);
 			motor[slide] = -50;
-			wait1Msec(900);
+			wait1Msec(1000);
 			motor[slide] = 0;
 			wait1Msec(1000);
 	    servo[leftgrab] = grabReleasePositionpeg1 - 15;// move slightly to possible help
@@ -114,7 +114,7 @@ task main()
 			servo[leftgrab] = grabReleasePositionpeg2;//move to position for the 2nd peg
 			wait1Msec(500);
 			motor[slide] = -50;//slide over to put the ring on
-			wait1Msec(750);
+			wait1Msec(1000);
 			motor[slide] = 0;
 			wait1Msec(1000);
 	    servo[leftgrab] = grabReleasePositionpeg2 + 10;//move slightly to help put the ring on
@@ -129,27 +129,27 @@ task main()
 		}
 		else if(countline ==3)
 		{//if at line 3 and at beacon
-			forward(6.4);//Distance after line till stop
+			forward(6.2);//Distance after line till stop
 			stopDrive();
 			wait1Msec(500);
 
 			servo[leftgrab] = grabReleasePositionpeg3;//put grabber to position for 3rd peg
 			wait1Msec(500);
 			motor[slide] = -50;//move to slide the ring on
-			wait1Msec(750);
+
+			wait1Msec(1000);
 			motor[slide] = 0;
 			wait1Msec(1000);
-	    servo[leftgrab] = grabReleasePositionpeg3 + 25;
+			servo[leftgrab] = grabReleasePositionpeg3 + 25;
 
 
 
+			//move slightly to help put ring on
+			wait1Msec(1000);
+			motor[leftDrive] = -50;
+			motor[rightDrive] = -50;
+			wait1Msec(6400);
 
-
-	    //move slightly to help put ring on
-	    wait1Msec(1000);
-	    motor[leftDrive] = -50;
-	    motor[rightDrive] = -50;
-	    wait1Msec(6400);
 			forward(7);
 		}
 	}
@@ -170,7 +170,9 @@ void initializeRobot()
   while(ServoValue(leftgrab) != grabDownPosition) {}
 	batteryTest();
 
-  servo[Claw] = 0;// reLEASE SLIDE
+
+  servo[claw] = 39;
+
 
   return;
 }

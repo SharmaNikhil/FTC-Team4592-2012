@@ -67,8 +67,12 @@ void initializeRobot()
   return;
 }
 void doDriving()
+<<<<<<< HEAD
 {
 
+=======
+{
+>>>>>>> 7694e91e1b27e7c839e0c65aaa172770d473e9fc
 	static int drivePower = highestDrivePower;
 	if(joy1Btn(driveSpeedToggleBtn) && (time1[T1] > timerDelayForToggles))//if button 2 is pressed change the speed to 50 and if
 	{																																			//pressed again it goes back
