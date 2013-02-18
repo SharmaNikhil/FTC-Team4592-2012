@@ -37,7 +37,7 @@ task main()
 
 
 	int countline = 0;
-  //waitForStart(); // Wait for the beginning of autonomous phase.
+  waitForStart(); // Wait for the beginning of autonomous phase.
   motor[slide] = 20;
 	wait1Msec(750);
 	motor[slide] = 0;
