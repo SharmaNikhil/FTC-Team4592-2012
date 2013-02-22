@@ -31,7 +31,7 @@ const int hookDownPosition    = 0;
 task main()
 {
   initializeRobot();
-
+/*
   //waitForStart(); // Wait for the beginning of autonomous phase.
   motor[slide] = 20;
 	wait1Msec(750);
@@ -70,6 +70,7 @@ task main()
 	servo[hook] = hookReleasePosition;
 
   while (true) {}
+  */
 }
 
 void initializeRobot()
