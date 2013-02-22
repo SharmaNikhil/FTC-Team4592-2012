@@ -93,7 +93,8 @@ task main()
 		}
 		else if(countline == 2)
 		{
-			forward(8.1);//Distance after line till stop
+			forward(9);//Distance after line till stop
+
 			stopDrive();
 			wait1Msec(500);
 
@@ -108,7 +109,7 @@ task main()
 			forward(7);//go forward to pull ring off
 		}
 		else if(countline == 3){
-			forward(8.97);//Distance after line till stop
+			forward(9);//Distance after line till stop
 			stopDrive();
 			wait1Msec(500);
 
