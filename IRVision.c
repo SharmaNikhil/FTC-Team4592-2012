@@ -39,6 +39,10 @@ task Vision();
 task PostCalc();
 task main()
 {
+	forward(10);
+
+	//turn 90 degrees
+	//not sure how we start
 
 	servo[leftIR] = leftIRZero;
 	servoChangeRate[leftIR] = 4;
@@ -61,6 +65,52 @@ task main()
 double Tangent(double a){
 	double tan = sin((PI/180)*a)/cos((PI/180)*a);
 	return tan;
+}
+void forward(float distance) {//forward function to pass in a length in inches and then it goes that for
+const float CHANGE = 2;
+float totalTraveled = 0;
+float encoderTarget = (169.92*distance) - 55.875; //calculate the encoder target
+nMotorEncoder[rightDrive] = 0;
+nMotorEncoder[leftDrive]  = 0;
+float leftEncoder;
+float rightEncoder;
+float leftPower  = 50;
+float rightPower = 50;
+while(abs(totalTraveled) < abs(encoderTarget))
+{
+	leftEncoder  = nMotorEncoder[leftDrive];
+	rightEncoder = nMotorEncoder[rightDrive];
+	if(leftEncoder > rightEncoder)//changes based on which one has traveled farther
+	{
+		leftPower  -= CHANGE;
+		rightPower += CHANGE;
+	}
+	else if(leftEncoder < rightEncoder)//same thing
+	{
+		leftPower  += CHANGE;
+		rightPower -= CHANGE;
+	}
+	motor[leftDrive]  = leftPower;
+	motor[rightDrive] = rightPower;
+	totalTraveled += (leftEncoder + rightEncoder)/ 2.0;
+	nMotorEncoder[rightDrive] = 0;
+	nMotorEncoder[leftDrive]  = 0;
+	ClearTimer(T1);
+	while(time1[T1] < 200) {
+		leftEncoder  = nMotorEncoder[leftDrive];
+		rightEncoder = nMotorEncoder[rightDrive];
+		if(!((abs(totalTraveled + (leftEncoder + rightEncoder)/ 2.0)/* average*/)/*adds the distance traveled*/ < abs(encoderTarget)))
+		{//while all that is not less than the encoder target
+			totalTraveled += (nMotorEncoder[leftDrive] + nMotorEncoder[rightDrive])/ 2.0;// add the aveage of the encoders
+			break;//exit
+		}
+	}
+}
+
+motor[leftDrive]  = 0;
+motor[rightDrive] = 0;
+nMotorEncoder[rightDrive] = 0;
+nMotorEncoder[leftDrive]  = 0;
 }
 task leftCalc() {//calc when 5 and 6
 	while(true)
@@ -107,14 +157,53 @@ task rightCalc() {//still need to do some editing with this and left
 task PostCalc(){
 	x= (-1*dist)*Tangent(leftcurrent);
 	y= (-1*dist)*Tangent(rightcurrent);
-	//add stuff here StartTask(act);
+	//add stuff here 
+	StartTask(act);
 }
 task Calc() {
 	StartTask(leftCalc);
 	StartTask(rightCalc);
 }
 task act(){
-	//add movement here
+	//while(the sensors are getting no readings)
+	if(SensorValue[rightVal] == 5){
+		forward(5);
+		wait1Msec(5000);
+	}
+	else if(SensorValue[rightVal] == 4)
+	{
+
+		motor[rightDrive] = 2
+		wait1Msec(500);
+		motor[rightdirve] = 0;
+		//turn sligtly
+		forward(5);
+		wait1Msec(1500);
+		
+	}
+	else if(SensorValue[rightVal] == 3)
+	{
+		motor[rightDrive] = 8;
+		wait1Msec(500);
+		motor[rightdirve] = 0;
+		forward(5);
+		wait1Msec(1500);
+	}
+	else if (SensorValue[rightVal] == 2)
+	{
+		motor[rightDrive] = 13;
+		wait1Msec(500);
+		motor[rightdirve] = 0;
+		forward(5);
+		wait1Msec(1500);
+
+	}
+	else if (SensorValue[rightVal] == 1)
+	{
+		//go back and adjust
+	}
+	else if(SensorValue[rightVal])
+
 }
 task Vision() {
 	StartTask(Calc);
@@ -157,3 +246,9 @@ task Vision() {
 		wait1Msec(10);
 	}
 }
+
+/* TODO
+possible turn function
+light sensor movement
+multiplexer working in code
+*/

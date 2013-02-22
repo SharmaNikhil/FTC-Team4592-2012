@@ -1,5 +1,5 @@
 #pragma config(Hubs,  S3, HTMotor,  HTMotor,  HTServo,  HTMotor)
-#pragma config(Sensor, S1,     irSeek,         sensorHiTechnicIRSeeker1200)
+#pragma config(Sensor, S1,     irSeek,         sensorHiTechnicIRSeeker1200)//need to change these he
 #pragma config(Sensor, S2,     light,          sensorLightActive)
 #pragma config(Sensor, S3,     ,               sensorI2CMuxController)
 #pragma config(Sensor, S4,     liftSafetyTouch, sensorTouch)
@@ -53,7 +53,7 @@ task main()
   	doGunning();
   }
 }
-/*task btnLiftControl() {
+/*task btnLiftControl() { uncomment when encoders are back to normal... george
 	int pos = targetLiftPos;
 	const int TOLERANCE = 100;
 	goingToTarget = true;

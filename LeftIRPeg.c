@@ -117,11 +117,11 @@ task main()
 			wait1Msec(1000);
 			motor[slide] = 0;
 			wait1Msec(1000);
-	    servo[leftgrab] = grabReleasePositionpeg2 + 10;//move slightly to help put the ring on
-	    wait1Msec(1000);
-	    motor[leftDrive] = -50;
-	    motor[rightDrive] = -50;
-	    wait1Msec(2000);
+		    servo[leftgrab] = grabReleasePositionpeg2 + 10;//move slightly to help put the ring on
+		    wait1Msec(1000);
+		    motor[leftDrive] = -50;
+		    motor[rightDrive] = -50;
+		    wait1Msec(2000);
 			motor[leftDrive] = 0;
 			motor[rightDrive] = 0;
 
