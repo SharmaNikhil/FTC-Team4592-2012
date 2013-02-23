@@ -148,7 +148,8 @@ void ClockWiseTurn(float degrees)
 	targetencodervalue = numofrotations * 1447;
 	motor[left] = -50;
 	motor[right] = 50;
-	while((abs(leftEncoder) < targetencodervalue) || (abs(rightEncoder) < targetencodervalue)){
+	while((abs(leftEncoder) < targetencodervalue) || (abs(rightEncoder) < targetencodervalue))
+	{//The fuck is this nerd shit?
 		leftEncoder  = nMotorEncoder[left];
 		rightEncoder = nMotorEncoder[right];
 		if (abs(rightEncoder) >= targetencodervalue)
