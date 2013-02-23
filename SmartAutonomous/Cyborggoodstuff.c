@@ -1,8 +1,8 @@
 #ifndef CYBORG_GOOD_STUFF_C
 #define CYBORG_GOOD_STUFF_C
 
-#include "hitechnic-sensormux.h"
-#include "hitechnic-irseeker-v2.h"
+#include "drivers/hitechnic-sensormux.h"
+#include "drivers/hitechnic-irseeker-v2.h"
 
 const tMUXSensor leftIRDev = msensor_S3_3;
 const tMUXSensor rightIRDev = msensor_S3_4;
