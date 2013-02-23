@@ -2,6 +2,6 @@
 #define RIGID_C
 void doRidgid() {
 	forward(32);
-	turn(345);
+	turn(-15);
 }
 #endif
