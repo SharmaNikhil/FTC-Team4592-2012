@@ -22,6 +22,10 @@ float leftcurrent = 0;
 int rightcount = 0;
 int leftcount = 0;
 float rightTotal = 0;
+const int leftIRZero = 4;
+const int leftIR180 = 237;
+const int rightIRZero = 6;
+const int rightIR180 = 243;
 
 const float dist = 11.5; //inches
 const float cornertorack = 99; //inches
@@ -39,9 +43,18 @@ task swivle();
 task find();
 task updateIRVals();
 double tangent();
-void leftCalc();
-void rightCalc();
+task leftCalc();
+task rightCalc();
+void doCyborgVision();
 
+
+void doCyborgVision(){
+	StartTask (updateIRVals);
+	StartTask (swivle);
+	StartTask (leftCalc);
+	StartTask (rightCalc);
+
+}
 task updateIRVals() {
     while(true)
     {
@@ -64,7 +77,7 @@ void PostCalc(){
 	//add stuff here
 }
 
- void leftCalc() {   //calc when 5 and 6
+task leftCalc() {   //calc when 5 and 6
 	while(true)
 	{
 		if(left == 5)
@@ -83,12 +96,12 @@ void PostCalc(){
 				leftNumOfReadings = 0;
 				leftTotal = 0;
 
-				//StartTask(PostCalc);
+				PostCalc();
 			}
 		}
 	}
 }
- void rightCalc() {   //still need to do some editing with this and left
+task rightCalc() {   //still need to do some editing with this and left
 	while(true)
 	{
 		if(right == 5)
