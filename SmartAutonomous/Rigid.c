@@ -19,7 +19,7 @@ void turn(float degrees) {
 	float turn = degrees*(10498/360);
 	while(abs(nMotorEncoder[leftDrive]) < turn && abs(nMotorEncoder[rightDrive]) < turn) {
 		if(degrees > 0) {
-			motor[leftPower] = -1*power;
+			motor[leftDrive] = -1*power;
 			motor[rightDrive] = power;
 		}
 		else {
