@@ -22,9 +22,9 @@ void run();
 void turn(float degrees); //turns 'degrees' degrees right
 
 void rigid() {
-	forward(48);
+	forward(24);
 	turn(15);
-	foreward(36);
+	foreward(24);
 	turn(-15);
 }
 
