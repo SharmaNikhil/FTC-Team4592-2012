@@ -1,9 +1,10 @@
 #pragma config(Hubs,  S1, HTMotor,  HTMotor,  HTServo,  none)
+#pragma config(Sensor, S1,     ,               sensorI2CMuxController)
 #pragma config(Sensor, S2,     HTSMUX,         sensorNone)
 #pragma config(Sensor, S3,     HTSMUX,         sensorNone)
 #pragma config(Sensor, S4,     touch,          sensorTouch)
 #pragma config(Motor,  mtr_S1_C1_1,     rightDrive,    tmotorTetrix, openLoop, encoder)
-#pragma config(Motor,  mtr_S1_C1_2,     leftDrive,     tmotorTetrix, openLoop, encoder)
+#pragma config(Motor,  mtr_S1_C1_2,     leftDrive,     tmotorTetrix, openLoop, reversed, encoder)
 #pragma config(Motor,  mtr_S1_C2_1,     slide,         tmotorTetrix, openLoop)
 #pragma config(Motor,  mtr_S1_C2_2,     lift,          tmotorTetrix, openLoop, encoder)
 #pragma config(Servo,  srvo_S1_C3_1,    rightIR,          tServoStandard)
@@ -16,33 +17,64 @@
 
 #include "JoystickDriver.c"  //Include file to "handle" the Bluetooth messages.
 #include "doLineFollow.c"
+#include "Rigid.c"
+#include "Cyborggoodstuff.c"
 
 void initializeRobot();
+void CounterClockWiseTurn(float degrees);
 task main()
 {
-  initializeRobot();
-
-  waitForStart(); // Wait for the beginning of autonomous phase.
+	//PlayTone(90,100);
+	//forward(6);
+	//CounterClockWiseTurn(180);
+	//CounterClockWiseTurn(90);
+  //initializeRobot();
+  //waitForStart(); // Wait for the beginning of autonomous phase.
   //doRidgid();
-	//doCyborgVision();
-	doLineFollow();
+	doCyborgVision();
+	//doLineFollow();
 	//doReleaseRing();
   while (true)
   {}
 }
 
+void CounterClockWiseTurn(float degrees)
+{
+	const float PERDEGREE = 30/90.0;
+	const float LINKSPERSPROKET = 20;
+	float numofrotations = (PERDEGREE * degrees )/LINKSPERSPROKET;
+	long leftEncoder   = 0;
+	long rightEncoder  = 0;
+	nMotorEncoder[leftDrive]  = 0;
+	nMotorEncoder[rightDrive] = 0;
+	float targetencodervalue = numofrotations * 1447;
+	motor[leftDrive]  = 50;
+	motor[rightDrive] = -50;
+	while((abs(leftEncoder) < targetencodervalue) || (abs(rightEncoder) < targetencodervalue)){
+		leftEncoder  = nMotorEncoder[leftDrive];
+		rightEncoder = nMotorEncoder[rightDrive];
+		if (abs(rightEncoder) >= targetencodervalue)
+			motor[rightDrive] = 0;
+		if (abs(leftEncoder) >= targetencodervalue)
+			motor[leftDrive]  = 0;
+	}
+}
+
 void turn(float degrees) {
 	const float fullturn = 10498;//encoder value for 360 degrees
 
-	float power = 50;
-	float turn = degrees*(10498/360);
+	float power = 100;
+	float turn = degrees*(fullturn/360.0);
+	nMotorEncoder[leftDrive] = 0;
+	nMotorEncoder[rightDrive] = 0;
 	while(abs(nMotorEncoder[leftDrive]) < turn && abs(nMotorEncoder[rightDrive]) < turn) {
 		if(degrees > 0) {
-			motor[leftDrive] = -1*power;
+			motor[leftDrive] = power;
 			motor[rightDrive] = power;
 		}
-		else {
-			motor[leftDrive] = power;
+		else
+		{
+			motor[leftDrive] = -1*power;
 			motor[rightDrive] = -1*power;
 		}
 	}

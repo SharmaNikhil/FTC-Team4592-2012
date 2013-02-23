@@ -2,13 +2,13 @@
 #define RIGID_C
 
 void forward(float distance); //distance in inches
-void run();
+void doRidgid();
 void turn(float degrees); //turns 'degrees' degrees right
 
-void rigid() {
+void doRidgid() {
 	forward(24);
 	turn(15);
-	foreward(24);
+	forward(24);
 	turn(-15);
 }
 
@@ -16,7 +16,7 @@ void turn(float degrees) {
 	const float fullturn = 10498;//encoder value for 360 degrees
 
 	float power = 50;
-	float turn = degrees*(10498/360);
+	float turn = degrees*(fullturn/360);
 	while(abs(nMotorEncoder[leftDrive]) < turn && abs(nMotorEncoder[rightDrive]) < turn) {
 		if(degrees > 0) {
 			motor[leftDrive] = -1*power;
