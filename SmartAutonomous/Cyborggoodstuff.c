@@ -1,9 +1,14 @@
 #ifndef CYBORG_GOOD_STUFF_C
 #define CYBORG_GOOD_STUFF_C
 
-#include "main.c";
-int right;
-int left;
+#include "hitechnic-sensormux.h"
+#include "hitechnic-irseeker-v2.h"
+
+const tMUXSensor leftIRDev = msensor_S3_3;
+const tMUXSensor rightIRDev = msensor_S3_4;
+
+int right = 0;
+int left = 0;
 
 float leftTotal = 0;
 float leftAverage = 0;
@@ -18,36 +23,38 @@ int rightcount = 0;
 int leftcount = 0;
 float rightTotal = 0;
 
-const float dist = 11.5;//inches
-const float cornertorack = 99;//inches
+const float dist = 11.5; //inches
+const float cornertorack = 99; //inches
 const float robottorack = 75;
 const float sidepegslines = 10.5;
 const float middlepeg = 31;
 const float betweenpeg = 20.5;
 
-float x;
-float y;
+float x = 0;
+float y = 0;
 bool left5 = false;
 bool right5 = false;
 
-void Vision();
-void find();
-void tangent();
+task swivle();
+task find();
+task updateIRVals();
+double tangent();
 void leftCalc();
 void rightCalc();
-void Vision();
 
-
-
-
-
-void find(){//determine where with IR
+task updateIRVals() {
+    while(true)
+    {
+        left = HTIRS2readACDir(leftIRDev);
+        right = HTIRS2readACDir(rightIRDev);
+    }
+}
+task find(){
+    //determine where with IR
 	//go based on x and y
-
-
 }
 double Tangent(double a){
-	double tan = sin((PI/180)*a)/cos((PI/180)*a);
+	double tan = sin((PI/180.0)*a)/cos((PI/180.0)*a);
 	return tan;
 }
 
@@ -57,11 +64,10 @@ void PostCalc(){
 	//add stuff here
 }
 
- void leftCalc() {//calc when 5 and 6
+ void leftCalc() {   //calc when 5 and 6
 	while(true)
 	{
-		leftsense = SensorValue[leftVal];
-		if(SensorValue[leftVal] == 5)
+		if(left == 5)
 		{
 
 			leftcount++;
@@ -82,10 +88,10 @@ void PostCalc(){
 		}
 	}
 }
- void rightCalc() {//still need to do some editing with this and left
+ void rightCalc() {   //still need to do some editing with this and left
 	while(true)
 	{
-		if(SensorValue[rightVal] == 5)
+		if(right == 5)
 		{
 			rightcount++;
 			rightTotal += servo[rightIR];
@@ -102,7 +108,7 @@ void PostCalc(){
 		}
 	}
 }
-void Vision() {
+task swivle() {
 	bool leftIRGoingLeft = false;
 	bool rightIRGoingLeft = false;
 	while(true)
