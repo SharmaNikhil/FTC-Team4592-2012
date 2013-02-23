@@ -1,8 +1,8 @@
 #ifndef DO_LINE_FOLLOW_C
 #define DO_LINE_FOLLOW_C
 
-#include "hitechnic-sensormux.h"
-#include "lego-light.h"
+#include "drivers/hitechnic-sensormux.h"
+#include "drivers/lego-light.h"
 
 const tMUXSensor Light1 = msensor_S2_1;
 const tMUXSensor Light2 = msensor_S2_2;
@@ -110,7 +110,7 @@ task correctLine() {
 }
 task MoveForward() {
 	while(true) {
-		//Move Forward
+	    forward(2);
 	}
 }
 bool lineOnRight() {
