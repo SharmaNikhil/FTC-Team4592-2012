@@ -143,7 +143,8 @@ void doGunning()
 		motor[slide] = 0;//if not press do nothing
 	}
 	if(abs(joystick.joy2_y1) > toggleZeroTolerance)//depending on the position on the y axis of the 1st joystick
-	{//it moves the slide up
+	{
+		//it moves the slide up
 		if(goingToTarget)
 		{
 			//StopTask(btnLiftControl);
