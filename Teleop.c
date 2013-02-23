@@ -126,7 +126,6 @@ void doGunning()
 	static int slideDirection = 1;
 	if(joy2Btn(Startup) && (time1[T2] > timerDelayForToggles))// if button 2 is pressed release the claw
 	{
-
 		releaseClaw();
 	}
 	if(joy2Btn(slideReverseBtn) && (time1[T2] > timerDelayForToggles))//reverse the slide direction
@@ -135,7 +134,7 @@ void doGunning()
 	}
 	if( abs(joystick.joy2_x2) > toggleZeroTolerance)
 	{
-		motor[slide] = (joystick.joy2_x2/128.0) * slidePower * slideDirection;//moves teh slide side to side based on the again it goes back
+		motor[slide] = (joystick.joy2_x2/128.0) * slidePower * slideDirection;//moves the slide side to side based on the again it goes back
 		//again it goes back
 	}
 	else

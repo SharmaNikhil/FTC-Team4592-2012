@@ -110,7 +110,7 @@ task correctLine() {
 }
 task MoveForward() {
 	while(true) {
-	    Forward(2);
+	    forward(2);
 	}
 }
 bool lineOnRight() {
