@@ -31,6 +31,24 @@ task main()
   {}
 }
 
+void turn(float degrees) {
+	const float fullturn = 10498;//encoder value for 360 degrees
+
+	float power = 50;
+	float turn = degrees*(10498/360);
+	while(abs(nMotorEncoder[leftDrive]) < turn && abs(nMotorEncoder[rightDrive]) < turn) {
+		if(degrees > 0) {
+			motor[leftDrive] = -1*power;
+			motor[rightDrive] = power;
+		}
+		else {
+			motor[leftDrive] = power;
+			motor[rightDrive] = -1*power;
+		}
+	}
+	motor[leftDrive] = 0;
+	motor[rightDrive] = 0;
+}
 void initializeRobot()
 {
 	LSsetActive(Light1);
