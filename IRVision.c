@@ -157,8 +157,8 @@ task rightCalc() {//still need to do some editing with this and left
 task PostCalc(){
 	x= (-1*dist)*Tangent(leftcurrent);
 	y= (-1*dist)*Tangent(rightcurrent);
-	//add stuff here 
-	StartTask(act);
+	//add stuff here
+
 }
 task Calc() {
 	StartTask(leftCalc);
@@ -179,7 +179,7 @@ task act(){
 		//turn sligtly
 		forward(5);
 		wait1Msec(1500);
-		
+
 	}
 	else if(SensorValue[rightVal] == 3)
 	{
