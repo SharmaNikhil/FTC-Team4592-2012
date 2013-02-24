@@ -4,6 +4,14 @@
 #include "drivers/hitechnic-sensormux.h"
 #include "drivers/hitechnic-irseeker-v2.h"
 
+typedef struct{
+	float leftAngle;
+	float rightAngle;
+} Angles;
+typedef struct{
+	float x;
+	float y;
+} Positions;
 const tMUXSensor leftIRDev = msensor_S3_3;
 const tMUXSensor rightIRDev = msensor_S3_4;
 
