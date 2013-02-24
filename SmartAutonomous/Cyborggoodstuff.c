@@ -52,8 +52,7 @@ bool right5 = false;
 task swivle();
 task find();
 task updateIRVals();
-
-double tangent();
+double tangent(double a);
 task leftCalc();
 task rightCalc();
 void doCyborgVision();
