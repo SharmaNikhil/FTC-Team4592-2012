@@ -70,12 +70,16 @@ task updateLightSensors() {
   LSsetActive(Light6);
 	while(true)
 	{
-		LightSensors[0] = LSvalNorm(Light1);
-		LightSensors[1] = LSvalNorm(Light2);
-		LightSensors[2] = LSvalNorm(Light3);
-		LightSensors[3] = LSvalNorm(Light4);
-		LightSensors[4] = LSvalNorm(Light5);
-		LightSensors[5] = LSvalNorm(Light6);
+		if(safe)
+		{
+			LightSensors[0] = LSvalNorm(Light1);
+			LightSensors[1] = LSvalNorm(Light2);
+			LightSensors[2] = LSvalNorm(Light3);
+			LightSensors[3] = LSvalNorm(Light4);
+			LightSensors[4] = LSvalNorm(Light5);
+			LightSensors[5] = LSvalNorm(Light6);
+			safe = false;
+		}
 	}
 }
 bool OnLine(int a) {
