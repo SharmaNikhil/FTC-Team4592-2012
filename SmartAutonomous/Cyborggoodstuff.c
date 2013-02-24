@@ -41,6 +41,8 @@ const float robottorack = 75;
 const float sidepegslines = 10.5;
 const float middlepeg = 31;
 const float betweenpeg = 20.5;
+Angles cur;
+Positions acur;
 
 float x = 0;
 float y = 0;
@@ -48,22 +50,20 @@ bool leftIRGoingLeft = false;
 bool rightIRGoingLeft = false;
 bool left5 = false;
 bool right5 = false;
+
 task PostCalc();
 task swivle();
-task find();
 task updateIRVals();
 
-double tangent();
-task leftCalc();
-task rightCalc();
+float tangent();
+float getLeftAngles();
+float getRightAngles();
 void doCyborgVision();
 
 
 void doCyborgVision(){
 	StartTask (updateIRVals);
 	StartTask (swivle);
-	StartTask (leftCalc);
-	StartTask (rightCalc);
 	wait1Msec(9000);
 	StartTask (PostCalc);
 
@@ -83,8 +83,8 @@ task find(){
     //determine where with IR
 	//go based on x and y
 }
-double Tangent(double a){
-	double tan = sin((PI/180.0)*a)/cos((PI/180.0)*a);
+float Tangent(float a){
+	float tan = sin((PI/180.0)*a)/cos((PI/180.0)*a);
 	return tan;
 }
 
@@ -98,7 +98,7 @@ task PostCalc(){
 	}
 }
 
-task leftCalc() {   //calc when 5 and 6
+float getLeftAngles(){//calc when 5 and 6
 	while(true)
 	{
 		if(leftIRGoingLeft)
@@ -129,14 +129,17 @@ task leftCalc() {   //calc when 5 and 6
 				}
 			}
 		}
+
 		if(leftcount >= 4)
 		{
+
 			leftAverage = leftTotal / leftNumOfReadings;
-			leftAngle = (leftAverage * 255.0) / 180.0;
-			leftcurrent = leftAngle;
+			cur.leftAngle = (leftAverage * 255.0) / 180.0;
+			leftcurrent = cur.leftAngle;
 			leftcount = 0;
 			leftNumOfReadings = 0;
 			leftTotal = 0;
+			return cur.leftAngle;
 		}
 		/*if(left == 5)
 		{
@@ -156,7 +159,7 @@ task leftCalc() {   //calc when 5 and 6
 		}*/
 	}
 }
-task rightCalc() {   //still need to do some editing with this and left
+float getRightAngles() {   //still need to do some editing with this and left
 	while(true)
 	{
 		if(rightIRGoingLeft)
@@ -193,11 +196,12 @@ task rightCalc() {   //still need to do some editing with this and left
 		{
 
 			rightAverage = rightTotal / rightNumOfReadings;
-			rightAngle = (rightAverage * 255.0) / 180.0;
-			rightcurrent = rightAngle;
+			cur.rightAngle = (rightAverage * 255.0) / 180.0;
+			rightcurrent = cur.rightAngle;
 			rightcount = 0;
 			rightTotal = 0;
 			rightNumOfReadings = 0;
+			return cur.rightAngle;
 		}
 	/*	if(right == 5)
 		{
