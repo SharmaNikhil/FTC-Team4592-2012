@@ -62,6 +62,12 @@ void doLineFollow()  {
 	}
 }
 task updateLightSensors() {
+	LSsetActive(Light1);
+  LSsetActive(Light2);
+  LSsetActive(Light3);
+  LSsetActive(Light4);
+  LSsetActive(Light5);
+  LSsetActive(Light6);
 	while(true)
 	{
 		LightSensors[0] = LSvalNorm(Light1);

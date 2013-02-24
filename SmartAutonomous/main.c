@@ -1,7 +1,7 @@
 #pragma config(Hubs,  S1, HTMotor,  HTMotor,  HTServo,  none)
 #pragma config(Sensor, S1,     ,               sensorI2CMuxController)
-#pragma config(Sensor, S2,     HTSMUX,         sensorNone)
-#pragma config(Sensor, S3,     HTSMUX,         sensorNone)
+#pragma config(Sensor, S2,     HTSMUX,         sensorI2CCustom)
+#pragma config(Sensor, S3,     HTSMUX2,         sensorI2CCustom)
 #pragma config(Sensor, S4,     touch,          sensorTouch)
 #pragma config(Motor,  mtr_S1_C1_1,     rightDrive,    tmotorTetrix, openLoop, encoder)
 #pragma config(Motor,  mtr_S1_C1_2,     leftDrive,     tmotorTetrix, openLoop, reversed, encoder)
@@ -28,24 +28,18 @@ task main()
 	//forward(6);
 	//CounterClockWiseTurn(180);
 	//CounterClockWiseTurn(90);
-  //initializeRobot();
+  initializeRobot();
   //waitForStart(); // Wait for the beginning of autonomous phase.
   //doRidgid();
 	//doCyborgVision();
 	//doLineFollow();
 	//doReleaseRing();
-	turn(360);
+	//turn(360);
   while (true)
   {}
 }
 void initializeRobot()
 {
-  LSsetActive(Light1);
-  LSsetActive(Light2);
-  LSsetActive(Light3);
-  LSsetActive(Light4);
-  LSsetActive(Light5);
-  LSsetActive(Light6);
   StartTask(updateLightSensors); //No robot movement only reads light sensors
   return;
 }
