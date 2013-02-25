@@ -11,7 +11,7 @@ typedef struct{
 typedef struct{
 	float x;
 	float y;
-} Positions;
+}Positions;
 const tMUXSensor leftIRDev = msensor_S3_3;
 const tMUXSensor rightIRDev = msensor_S3_4;
 
@@ -57,16 +57,19 @@ double tangent();
 task leftCalc();
 task rightCalc();
 void doCyborgVision();
-
+void act(Positions pos);
 
 void doCyborgVision(){
 	StartTask (updateIRVals);
-	StartTask (swivle);
+	/*StartTask (swivle);
 	StartTask (leftCalc);
 	StartTask (rightCalc);
 	wait1Msec(9000);
-	StartTask (PostCalc);
-
+	StartTask (PostCalc);*/
+	Positions tmp;
+  tmp.x = 0;
+  tmp.y = 24;
+  act(tmp);
 }
 task updateIRVals() {
     while(true)
@@ -254,6 +257,29 @@ task swivle() {
 			servo[rightIR] = servo[rightIR] + 1.0;
 		}
 		wait1Msec(10);
+	}
+}
+void act(Positions pos) {
+	if( pos.x > 3 || pos.x < -3) // Farther than 3 inches
+	{
+		if(pos.x > 0)
+		{
+			turn(90);
+			forward(pos.x);
+			turn(-90);
+		}
+		else
+		{
+			turn(-90);
+			forward(pos.x);
+			turn(90);
+		}
+	}
+	float total = 0;
+	while(!hitLine() && total < pos.y)
+	{
+		forward(2);
+		total += 2;
 	}
 }
 

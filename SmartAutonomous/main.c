@@ -31,6 +31,7 @@ task main()
   initializeRobot();
   //waitForStart(); // Wait for the beginning of autonomous phase.
   //doRidgid();
+  //forward(24);
 	doCyborgVision();
 	//doLineFollow();
 	//doReleaseRing();
