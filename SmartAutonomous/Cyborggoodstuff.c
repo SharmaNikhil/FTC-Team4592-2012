@@ -51,22 +51,13 @@ bool rightIRGoingLeft = false;
 bool left5 = false;
 bool right5 = false;
 
-<<<<<<< HEAD
 task PostCalc();
-=======
->>>>>>> 4ccd48f4f9e03d260ac5b3294392563afc20abe0
 task swivle();
 task updateIRVals();
-<<<<<<< HEAD
-
 float tangent();
 float getLeftAngles();
 float getRightAngles();
-=======
-double tangent(double a);
-task leftCalc();
-task rightCalc();
->>>>>>> 4ccd48f4f9e03d260ac5b3294392563afc20abe0
+
 void doCyborgVision();
 float calcPosX(Angles angles);
 float calcPosY(Angles angles);
