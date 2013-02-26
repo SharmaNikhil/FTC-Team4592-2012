@@ -51,14 +51,72 @@ bool rightIRGoingLeft = false;
 bool left5 = false;
 bool right5 = false;
 
+<<<<<<< HEAD
 task PostCalc();
+=======
+>>>>>>> 4ccd48f4f9e03d260ac5b3294392563afc20abe0
 task swivle();
 task updateIRVals();
+<<<<<<< HEAD
 
 float tangent();
 float getLeftAngles();
 float getRightAngles();
+=======
+double tangent(double a);
+task leftCalc();
+task rightCalc();
+>>>>>>> 4ccd48f4f9e03d260ac5b3294392563afc20abe0
 void doCyborgVision();
+float calcPosX(Angles angles);
+float calcPosY(Angles angles);
+
+float calcPosX(Angles angles){
+	float a = angles.leftAngle;
+	float b = angles.rightAngle;
+
+	if(b > 90){
+		float x = ((dist*sinDegrees(a))/sinDegrees(180-a-b))*sinDegrees(90-(180-b))-0.5*dist;
+		return x;
+	}
+	if(a > 90){
+		float B = (dist*sinDegrees(b)/sinDegrees(180-a-b);
+		float y = B*sinDegrees(180-a);
+		return sqrt(B*B-y*y)+0.5*dist;
+	}
+	if(a == 90){
+		return -0.5*dist;
+	}
+	if(b == 90){
+		return 0.5*dist;
+	}
+	float B = (dist*sinDegrees(b))/sinDegrees(180-a-b);
+	float y = ((dist*sinDegrees(a))/sinDegrees(180-a-b))*sinDegrees(b);
+	return 0.5*dist-sqrt(B*B-y*y);
+}
+
+float calcPosY(Angles angles){
+	float a = angles.leftAngle;
+	float b = angles.rightAngle;
+
+	if(a > 90){
+		float aPrime = 180 - a;
+		return (dist*sinDegrees(a)*aPrime)/sinDegrees(180-a-b);
+	}
+	if(b > 90){
+		float bPrime = 180-b;
+		float A = ((dist*sinDegrees(a))/sinDegrees(180-a-b);
+		return A*sinDegrees(bPrime);
+	}
+
+	if(a == 90){
+		return (dist*sinDegrees(b))/sinDegrees(180-a-b);
+	}
+	if(b == 90){
+		return (dist*sinDegrees(a))/sinDegrees(180-a-b);
+	}
+
+}
 
 
 void doCyborgVision(){

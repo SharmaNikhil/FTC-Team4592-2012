@@ -53,7 +53,7 @@ void turn(float degrees) {
 			motor[leftDrive] = -100;
 			motor[rightDrive] = 100;
 		}
-		else
+		else if(degrees < 0)
 		{
 			motor[leftDrive] = 100;
 			motor[rightDrive] = -100;
