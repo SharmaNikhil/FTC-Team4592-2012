@@ -11,7 +11,7 @@ typedef struct{
 typedef struct{
 	float x;
 	float y;
-} Positions;
+}Positions;
 const tMUXSensor leftIRDev = msensor_S3_3;
 const tMUXSensor rightIRDev = msensor_S3_4;
 
@@ -35,7 +35,7 @@ const int leftIR180 = 247.0;
 const int rightIRZero = 6.0;
 const int rightIR180 = 232.0;
 
-const float dist = 11.5; //inches
+const float dist = 13.0 + (3.0/4.0); //13 3/4 inches
 const float cornertorack = 99; //inches
 const float robottorack = 75;
 const float sidepegslines = 10.5;
@@ -56,6 +56,7 @@ double tangent(double a);
 task leftCalc();
 task rightCalc();
 void doCyborgVision();
+
 float calcPosX(Angles angles);
 float calcPosY(Angles angles);
 
@@ -86,35 +87,36 @@ float calcPosX(Angles angles){
 float calcPosY(Angles angles){
 	float a = angles.leftAngle;
 	float b = angles.rightAngle;
-
 	if(a > 90){
 		float aPrime = 180 - a;
 		return (dist*sinDegrees(a)*aPrime)/sinDegrees(180-a-b);
 	}
-	if(b > 90){
+	else if(b > 90){
 		float bPrime = 180-b;
 		float A = ((dist*sinDegrees(a))/sinDegrees(180-a-b);
 		return A*sinDegrees(bPrime);
 	}
-
-	if(a == 90){
+	else if(a == 90){
 		return (dist*sinDegrees(b))/sinDegrees(180-a-b);
 	}
-	if(b == 90){
+	else{
 		return (dist*sinDegrees(a))/sinDegrees(180-a-b);
 	}
-
 }
 
+void act(Positions pos);
 
 void doCyborgVision(){
 	StartTask (updateIRVals);
-	StartTask (swivle);
+	/*StartTask (swivle);
 	StartTask (leftCalc);
 	StartTask (rightCalc);
 	wait1Msec(9000);
-	StartTask (PostCalc);
-
+	StartTask (PostCalc);*/
+	Positions tmp;
+  tmp.x = 0;
+  tmp.y = 24;
+  act(tmp);
 }
 task updateIRVals() {
     while(true)
@@ -302,6 +304,29 @@ task swivle() {
 			servo[rightIR] = servo[rightIR] + 1.0;
 		}
 		wait1Msec(10);
+	}
+}
+void act(Positions pos) {
+	if( pos.x > 3 || pos.x < -3) // Farther than 3 inches
+	{
+		if(pos.x > 0)
+		{
+			turn(90);
+			forward(pos.x);
+			turn(-90);
+		}
+		else
+		{
+			turn(-90);
+			forward(pos.x);
+			turn(90);
+		}
+	}
+	float total = 0;
+	while(!hitLine() && total < pos.y)
+	{
+		forward(2);
+		total += 2;
 	}
 }
 

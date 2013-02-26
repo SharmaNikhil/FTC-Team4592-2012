@@ -66,7 +66,6 @@ task countline()
 			count++;
 			wait1Msec(750);
 		}
-
 	}
 }
 
@@ -83,16 +82,16 @@ void forward(float distance) {
 	int totalTraveled = 0;
 	float RotationsNeeded = distance / 7.817;
 	float encoderTarget = RotationsNeeded * 1225;
-	nMotorEncoder[right] = 0;
-	nMotorEncoder[left]  = 0;
+	nMotorEncoder[rightDrive] = 0;
+	nMotorEncoder[leftDrive]  = 0;
 	float leftEncoder;
 	float rightEncoder;
 	float leftPower = 50;
 	float rightPower = 100;
 	while(abs(totalTraveled) < abs(encoderTarget))
 	{
-		leftEncoder  = nMotorEncoder[left];
-		rightEncoder = nMotorEncoder[right];
+		leftEncoder  = nMotorEncoder[leftDrive];
+		rightEncoder = nMotorEncoder[rightDrive];
 		if(leftEncoder > rightEncoder)
 		{
 			leftPower  -= CHANGE;
@@ -103,17 +102,17 @@ void forward(float distance) {
 			leftPower  += CHANGE;
 			rightPower -= CHANGE;
 		}
-		motor[left]  = leftPower;
-		motor[right] = rightPower;
+		motor[leftDrive]  = leftPower;
+		motor[rightDrive] = rightPower;
 		totalTraveled += (leftEncoder+rightEncoder)/2;
-		nMotorEncoder[right] = 0;
-		nMotorEncoder[left]  = 0;
+		nMotorEncoder[rightDrive] = 0;
+		nMotorEncoder[leftDrive]  = 0;
 		wait1Msec(200);
 	}
-	motor[left] = 0;
-	motor[right] = 0;
-	nMotorEncoder[right] = 0;
-	nMotorEncoder[left]  = 0;
+	motor[leftDrive] = 0;
+	motor[rightDrive] = 0;
+	nMotorEncoder[rightDrive] = 0;
+	nMotorEncoder[leftDrive]  = 0;
 }
 void CounterClockWiseTurn(float degrees)
 {

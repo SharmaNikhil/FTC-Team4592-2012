@@ -21,16 +21,21 @@ bool safe = false;
 #include "doLineFollow.c"
 #include "Rigid.c"
 #include "Cyborggoodstuff.c"
-
+float calculatedY = 0;
+float calculatedX = 0;
 void initializeRobot();
 task main()
 {
   servo[ring] = 0;
   initializeRobot();
-  waitForStart(); // Wait for the beginning of autonomous phase.
+  //waitForStart(); // Wait for the beginning of autonomous phase.
   //doRidgid();
-
-  doCyborgVision();
+  Angles myData;
+  myData.leftAngle = 108.5;
+  myData.rightAngle = 34;
+  calculatedX = calcPosX(myData);
+  calculatedY = calcPosY(myData);
+  //doCyborgVision();
   //doLineFollow();
   //doReleaseRing();
   while (true)

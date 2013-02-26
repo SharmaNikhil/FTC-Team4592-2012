@@ -11,9 +11,9 @@ const tMUXSensor Light4 = msensor_S2_4;
 const tMUXSensor Light5 = msensor_S3_1;
 const tMUXSensor Light6 = msensor_S3_2;
 
-const int LINE_TOLERANCE = 45;
+const int LINE_TOLERANCE = 80;
 
-int LightSensors[6] = {0,0,0,0,0,0};
+int LightSensors[6] = {100,100,100,100,100,100};
 
 bool goingForward = false;
 bool correcting = false;
@@ -83,7 +83,7 @@ task updateLightSensors() {
 	}
 }
 bool OnLine(int a) {
-	if(a > LINE_TOLERANCE)
+	if(a < LINE_TOLERANCE)
 		return true;
 	return false;
 }
@@ -120,7 +120,7 @@ task correctLine() {
 }
 task MoveForward() {
 	while(true) {
-	    forward(2);
+	    forward(5);
 	}
 }
 bool lineOnRight() {
