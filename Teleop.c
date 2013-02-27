@@ -52,7 +52,7 @@ task main()
   	doGunning();
   }
 }
-/*task btnLiftControl() { uncomment when encoders are back to normal... george
+task btnLiftControl() {
 	int pos = targetLiftPos;
 	const int TOLERANCE = 100;
 	goingToTarget = true;
@@ -60,16 +60,16 @@ task main()
 	switch (pos)
 	{
 		case 1:
-		targetPosition = 500;
+		targetPosition = 600;
 		break;
 		case 2:
-		targetPosition = 200;
+		targetPosition = 400;
 		break;
 		case 3:
-		targetPosition = 2200;
+		targetPosition = 2150;
 		break;
 		case 4:
-		targetPosition = 7900;
+		targetPosition = 7500;
 		break;
 	}
 	while(abs(nMotorEncoder[lift] - targetPosition) > TOLERANCE)
@@ -80,7 +80,7 @@ task main()
 			liftAssignSafety(liftUpPower);
 	}
 	goingToTarget = false;
-}*/
+}
 void initializeRobot()
 {
 	ClearTimer(T1);
@@ -89,6 +89,7 @@ void initializeRobot()
 	ClearTimer(T4);
 	batteryTest();
 	nMotorEncoder[lift] = 0;
+	servo[ring] = 0;
   return;
 }
 void doDriving()
@@ -145,7 +146,7 @@ void doGunning()
 		//it moves the slide up
 		if(goingToTarget)
 		{
-			//StopTask(btnLiftControl);
+			StopTask(btnLiftControl);
 			goingToTarget = false;
 		}
 		if(joystick.joy2_y1 > 0)
@@ -162,7 +163,8 @@ void doGunning()
 		if(!goingToTarget) liftAssignSafety(0);//if nothing do nothing
 	}
 	if(joy2Btn(clawToggleBtn) && (time1[T3] > timerDelayForToggles))// if 2 is pressed change the position of the claw to
-	{//push position and if at push postiong put it at grab position
+	{
+		//push position and if at push postiong put it at grab position
 		if(ServoValue[clawservo] == clawPushPosition)
 		{
 			servo[clawservo] = clawGrabPosition;
@@ -174,19 +176,19 @@ void doGunning()
 		ClearTimer(T3);
 	}
 	if(joy2Btn(1)){
-		//StartTask(btnLiftControl);
+		StartTask(btnLiftControl);
 		targetLiftPos = 1;
 	}
 	if(joy2Btn(2)){
-		//StartTask(btnLiftControl);
+		StartTask(btnLiftControl);
 		targetLiftPos = 2;
 	}
 	if(joy2Btn(3)){
-		//StartTask(btnLiftControl);
+		StartTask(btnLiftControl);
 		targetLiftPos = 3;
 	}
 	if(joy2Btn(4)){
-		//StartTask(btnLiftControl);
+		StartTask(btnLiftControl);
 		targetLiftPos = 4;
 	}
 }
