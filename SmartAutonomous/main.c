@@ -27,7 +27,7 @@ task main()
 {
   servo[ring] = 0;
   initializeRobot();
-  waitForStart(); // Wait for the beginning of autonomous phase.
+  //waitForStart(); // Wait for the beginning of autonomous phase.
   //doRidgid();
 
   doCyborgVision();
