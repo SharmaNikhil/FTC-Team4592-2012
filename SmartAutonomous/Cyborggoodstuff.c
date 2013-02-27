@@ -187,7 +187,7 @@ float getRightAngles(){
 		{
 				rightin5 = false;
 				rx1 = servo[rightIR];
-				rightAverage = rx1 + ((rx1 - ry1) / 2);
+				rightAverage = rx1 + ((ry1 - rx1) / 2.0);
 
 		}
 	/*	if((right == 5 && !rightIRGoingLeft) && (rightin5 == false))
@@ -202,9 +202,9 @@ float getRightAngles(){
 				ry2 = servo[rightIR];
 				rightAverage = ry2 + ((ry2 - rx2) / 2);
 		}*/
-		cur.rightAngle = (rightAverage / (rightIR180 - rightIRZero)) * 180.0;
-		rightAngle1 = (rightAverage * 255) / 180;
-		return cur.rightAngle;
+	//	cur.rightAngle = (rightAverage / (rightIR180 - rightIRZero)) * 240.0;
+		rightAngle1 = (rightAverage /255.0) * 180.0;
+		return rightAngle1;
 	}
 }
 
@@ -231,15 +231,14 @@ float getLeftAngles(){
 
 		}
 		if((left > 5 && (leftIRGoingLeft == true)) && (leftin5 == true))
-			{
+		{
 				leftin5 = false;
 				ly2 = servo[leftIR];
-				leftAverage = ly2 + ((lx2 - ly2) / 2);
-				sumleftavergae += leftAverage;
-			}
+				leftAverage = ly2 + ((lx2 - ly2) / 2.0);
+				//sumleftavergae += leftAverage;
+				leftAngle1 = (leftAverage / 255.0) * 180;
+		}
 
-	//		leftAngle1 = (leftAverage * 255) / 180;
-			leftAngle1 = (sumleftavergae /(leftIR180 - leftIRZero)) * 180;
 		//cur.leftAngle = (leftAverage / (leftIR180 - leftIRZero)) * 180;
 		return leftAngle1;
 	}
