@@ -3,6 +3,7 @@
 
 #include "drivers/hitechnic-sensormux.h"
 #include "drivers/lego-light.h"
+#include "movement.c"
 
 const tMUXSensor Light1 = msensor_S2_1;
 const tMUXSensor Light2 = msensor_S2_2;
@@ -10,12 +11,12 @@ const tMUXSensor Light3 = msensor_S2_3;
 const tMUXSensor Light4 = msensor_S2_4;
 const tMUXSensor Light5 = msensor_S3_1;
 const tMUXSensor Light6 = msensor_S3_2;
-
+const float distBetweenLightSens = 1.0 + (7.0/8.0);
 const int LINE_TOLERANCE = 80;
 
 int LightSensors[6] = {100,100,100,100,100,100};
 
-bool goingForward = false;
+bool goingForward = true;
 bool correcting = false;
 bool hitTarget();
 task correctLine();
@@ -26,10 +27,10 @@ bool lineOnLeft();
 bool hitLine(); //Used by doIR and in doLineFollow.c
 
 void doLineFollow()  {
-	//int LightSensors[8] 0 is far left, 6 is far right, 7 is middle
+	//int LightSensors[6]; 0 is far left, 4 is far right, 5 is middle
 	while(!hitTarget())
 	{
-		if(OnLine(LightSensors[2]) && OnLine(LightSensors[5]))
+		if(OnLine(LightSensors[2])
 		{
 			if(!goingForward)
 			{
@@ -55,11 +56,11 @@ void doLineFollow()  {
 				correcting = true;
 			}
 		}
-		if(goingForward)
-			StopTask(MoveForward);
-		if(correcting)
-			StopTask(correctLine);
 	}
+	StopTask(MoveForward);
+	StopTask(correctLine);
+	motor[leftDrive] = 0;
+	motor[rightDrive] = 0;
 }
 task updateLightSensors() {
 	LSsetActive(Light1);
@@ -88,35 +89,34 @@ bool OnLine(int a) {
 	return false;
 }
 bool hitTarget() {
-	if(SensorValue[touch] == 1)
+	if(SensorValue(touch) == 1)
 		return true;
 	return false;
 }
 task correctLine() {
-	typedef enum Direction {
-		FORWARD,
-		RIGHT_SIDE,
-		LEFT_SIDE,
-		BACKWARD
-	};
-	Direction cur_dir = FORWARD; //Direction of IR PEG
-	typedef enum Side {
-		LEFT,
-		RIGHT
-	};
-	Side lineSide; //Side on wich line was on
+	int numDetected;
+	for(unsigned int x = 0; x < 5; x++)
+	{
+		if(OnLine(LightSensors[x]))
+		{
+			numDetected = x;
+			break;
+		}
+	}
+	float distToSide = abs(2 - numDetected) * distBetweenLightSens;
 	if(lineOnRight())
 	{
-		lineSide = RIGHT;
+		turn(90);
+		forward(distToSide);
+		turn(-90);
 	}
 	else if(lineOnLeft())
 	{
-		lineSide = LEFT;
+		turn(-90);
+		forward(distToSide);
+		turn(90);
 	}
-	else
-	{
-		//Not lined up but also not straight
-	}
+	correcting = false;
 }
 task MoveForward() {
 	while(true) {
